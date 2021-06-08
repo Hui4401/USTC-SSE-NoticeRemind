@@ -1,7 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 import datetime
-from smtplib import SMTP
+from smtplib import SMTP_SSL
 from email.mime.text import MIMEText
 
 import config
@@ -26,7 +26,7 @@ def sendmail(title, author, time, content):
     msg['subject'] = title + ' ' + author + ' ' + time
     msg["from"] = 'NoticeReminder'
     msg["to"] = ','.join(config.SMTP_RECIVER)
-    with SMTP(config.SMTP_HOST, config.SMTP_PORT) as smtp:
+    with SMTP_SSL(config.SMTP_HOST, config.SMTP_PORT) as smtp:
         smtp.login(config.SMTP_USERNAME, config.SMTP_PASSWORD)
         smtp.sendmail(config.SMTP_SENDER, config.SMTP_RECIVER, msg.as_string())
 
