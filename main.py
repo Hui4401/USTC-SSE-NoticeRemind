@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 import datetime
 from smtplib import SMTP_SSL
 from email.mime.text import MIMEText
+from email.utils import formataddr
 
 import config
 
@@ -22,9 +23,9 @@ def calculate_code(codes):
 
 
 def sendmail(title, author, time, content):
-    msg = MIMEText(content, 'html')
+    msg = MIMEText(content, 'html', 'utf-8')
     msg['subject'] = title + ' ' + author + ' ' + time
-    msg["from"] = 'NoticeReminder'
+    msg["from"] = formataddr(['NoticeRemainder', config.SMTP_SENDER])
     msg["to"] = ','.join(config.SMTP_RECIVER)
     with SMTP_SSL(config.SMTP_HOST, config.SMTP_PORT) as smtp:
         smtp.login(config.SMTP_USERNAME, config.SMTP_PASSWORD)
